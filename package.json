@@ -1,0 +1,14 @@
+{
+  "name": "healthtracker-root",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "concurrently \"npm run dev:home\" \"npm run dev:patients\"",
+    "dev:home": "npm --prefix Home_Page run dev -- --port 5173 --strictPort",
+    "dev:patients": "npm --prefix Patients/Registration_Page run dev -- --port 5174 --strictPort",
+    "install:all": "npm install && npm --prefix Home_Page install && npm --prefix Patients/Registration_Page install"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}

@@ -1,10 +1,12 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Button } from './ui/Button';
 import gsap from 'gsap';
 
 export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -59,7 +61,7 @@ export function Navbar() {
               <a href="tel:102" className="text-ivory font-bold hover:text-orange-light transition-colors">102</a>
             </div>
             <a href="#" className="text-sm font-semibold text-sand hover:text-ivory transition-colors">Log In</a>
-            <Button onClick={() => { window.location.href = 'http://localhost:5174'; }}>Sign Up</Button>
+            <Button onClick={() => navigate('/register')}>Sign Up</Button>
           </div>
 
           <button 
@@ -83,7 +85,7 @@ export function Navbar() {
         ))}
         <div className="flex flex-col gap-4 mt-8 w-64">
           <Button variant="outline" fullWidth>Log In</Button>
-          <Button fullWidth onClick={() => { window.location.href = 'http://localhost:5174'; }}>Sign Up</Button>
+          <Button fullWidth onClick={() => navigate('/register')}>Sign Up</Button>
         </div>
       </div>
     </>

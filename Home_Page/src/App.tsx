@@ -1,9 +1,11 @@
 import React, { Suspense, useEffect } from 'react';
+import { Routes, Route } from 'react-router-dom';
 import { Navbar } from './components/Navbar';
 import { Hero } from './components/Hero';
 import { useParallax } from './hooks/useParallax';
 import { initScrollReveal, killScrollTriggers } from './animations/scrollReveal';
 import { runPageLoadAnimation } from './animations/pageLoad';
+import RegistrationPage from './pages/Registration/RegistrationPage';
 
 // Lazy load below-the-fold components
 const Services = React.lazy(() => import('./components/Services').then(m => ({ default: m.Services })));
@@ -14,7 +16,7 @@ const CTA = React.lazy(() => import('./components/CTA').then(m => ({ default: m.
 const Stats = React.lazy(() => import('./components/Stats').then(m => ({ default: m.Stats })));
 const Footer = React.lazy(() => import('./components/Footer').then(m => ({ default: m.Footer })));
 
-function App() {
+function Home() {
   useParallax();
 
   useEffect(() => {
@@ -51,6 +53,15 @@ function App() {
         <Footer />
       </Suspense>
     </div>
+  );
+}
+
+function App() {
+  return (
+    <Routes>
+      <Route path="/" element={<Home />} />
+      <Route path="/register" element={<RegistrationPage />} />
+    </Routes>
   );
 }
 
