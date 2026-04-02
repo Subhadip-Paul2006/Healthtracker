@@ -30,7 +30,7 @@ Healthtracker/
             ├── main.tsx
             ├── App.tsx
             ├── components/
-            │   └── ProviderForm.tsx
+                └── ProviderForm.tsx
             └── types/
                 └── index.ts
 ```
