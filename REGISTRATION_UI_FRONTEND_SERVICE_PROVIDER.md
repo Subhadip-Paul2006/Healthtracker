@@ -17,9 +17,10 @@ Strictly follow this structure:
 
 ```
 Healthtracker/
-├── Home Page/
+├── Home Page
 ├── Prompts.md
-├── Patients/
+├── Patients
+├── Doctors
 └── Providers/
     └── Registration_Page/
         ├── index.html
