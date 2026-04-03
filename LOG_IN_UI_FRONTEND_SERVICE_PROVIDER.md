@@ -6,6 +6,8 @@
 ## Objective
 
 Build the **Service Provider Login Page** for HealthTracker — a premium healthcare SaaS platform. The implementation must **pixel-accurately match the provided design reference image**. The page uses the same split-panel shell as all other HealthTracker login pages. The left panel features a full bleed orange gradient background with a provider/doctor photograph blended into the lower portion — no Three.js visual element is visible as a hero; Three.js is a low-opacity ambient layer only. The form card is white, compact, and contains the standard login fields with "Provider Login" as the card title.
+Figma MCP: @https://www.figma.com/design/zxejwysw660pSV5ZYy1QAY/Healthtracker-UI?node-id=19-100&m=dev <br>
+Sample Image : Prompt_Assets/Service_Provider_Login.png
 
 **Design feel:** Operational · Professional · Clinical Infrastructure · Trustworthy
 
