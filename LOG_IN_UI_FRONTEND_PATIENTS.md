@@ -6,7 +6,8 @@
 ## Objective
 
 Build the **Login Page** for HealthTracker — a premium healthcare SaaS platform. The implementation must **pixel-accurately match the provided design reference image**. The page is a split-panel layout: a branded dark-to-orange left panel and a clean ivory right panel containing the navbar, role tabs, and a centered login card.
-
+Figma MCP: @https://www.figma.com/design/zxejwysw660pSV5ZYy1QAY/Healthtracker-UI?node-id=19-291&m=dev <br>
+Sample Image : Prompt_Assets/Patient_Login.png <br>
 **Design feel:** Calm · Premium · Clinical · Trustworthy
 
 ---
