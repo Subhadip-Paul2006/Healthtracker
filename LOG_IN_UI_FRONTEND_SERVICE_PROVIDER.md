@@ -18,8 +18,8 @@ Strictly follow this structure. Do not add, rename, or remove any files:
 ```
 Healthtracker/
 ├── MASTER_PROMPT.md
-├── Home_Page/
-├── Patients/
+├── Home_Page/                   ← EXISTING FOLDER — DO NOT TOUCH OR REGENERATE
+├── Patients/                    ← EXISTING FOLDER — DO NOT TOUCH OR REGENERATE
 └── Service_Provider/
     ├── Registration_Page/       ← EXISTING FOLDER — DO NOT TOUCH OR REGENERATE
     └── Login_Page/
