@@ -170,18 +170,37 @@ Layer 3 (z-10):  Text overlay content
 
 ---
 
-## Role Toggle Tabs (App.tsx)
+## Role Toggle Tabs — Sliding Pill Indicator (App.tsx)
 
-- Container: `flex justify-center mt-5 mb-6`
-- Inner: `inline-flex rounded-full bg-sand p-1`
+### Structure
+- Outer container: `relative inline-flex items-center bg-sand rounded-full p-1`
+- Centered wrapper: `flex justify-center mt-5 mb-6`
+- 3 tab buttons: `For Patients · For Doctors · For Providers`
 
-| Tab | State | Style |
-|---|---|---|
-| For Patients | Inactive | `text-coffee/65 px-5 py-2 text-sm hover:text-coffee transition` |
-| For Doctors | Inactive | `text-coffee/65 px-5 py-2 text-sm hover:text-coffee transition` |
-| **For Providers** | **Active** | `bg-burnt text-white rounded-full px-5 py-2 text-sm font-semibold` |
+### Sliding Indicator
+- A `<div>` positioned `absolute top-1 bottom-1 left-1 rounded-full`
+- Background: `bg-burnt`
+- Width: `calc(33.333% - 2px)`
+- Shadow: `shadow-[0_0_12px_rgba(217,108,45,0.45)]`
+- Moves behind tab text — indicator has no z-index, tab text is `z-10`
 
-- "For Providers" is permanently active on this page — tabs are display-only, no routing needed
+### State & Refs
+- `useState<'Patients'|'Doctors'|'Providers'>('Providers')` — default is **Providers**
+- `useRef` for indicator div
+- `useRef<(HTMLButtonElement|null)[]>` array for tab buttons
+
+### GSAP Behavior
+- On page load: `gsap.set(indicatorRef, { x: '200%' })` — snap to Providers, no animation
+- On tab click: `gsap.to(indicatorRef, { x: index * 100 + '%', duration: 0.45, ease: 'power3.inOut' })`
+- Active tab text scale: `gsap.to(activeTab, { scale: 1.05, duration: 0.3 })`
+- Inactive tabs: `gsap.to(inactiveTabs, { scale: 1, duration: 0.3 })`
+
+### Active / Inactive Text
+- Active tab: `text-white`
+- Inactive tabs: `text-coffee/65 hover:text-coffee`
+
+### Behavior Note
+- Tabs are display-only — clicking animates the indicator but does not navigate
 
 ---
 
