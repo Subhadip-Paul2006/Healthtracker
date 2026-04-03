@@ -18,9 +18,9 @@ Strictly follow this structure. Do not deviate or add extra files unless listed:
 ```
 Healthtracker/
 ├── MASTER_PROMPT.md
-├── Home_Page
+├── Home_Page                   ← EXISTING FOLDER — DO NOT TOUCH OR REGENERATE
 └── Patients/
-    ├── Registration_Page
+    ├── Registration_Page       ← EXISTING FOLDER — DO NOT TOUCH OR REGENERATE
     └── Login_Page/
         ├── index.html
         ├── tailwind.config.ts
