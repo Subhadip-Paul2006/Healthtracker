@@ -5,7 +5,7 @@
 
 ## Objective
 
-Build the **Service Provider Login Page** for HealthTracker — a premium healthcare SaaS platform. The implementation must maintain **full visual consistency with the Patient and Doctor Login pages** while being distinctly tailored for service providers (Labs, Pharmacies, Clinics, Diagnostic Centers). The page shares the same split-panel shell, navbar, tab structure, input styles, and GSAP timing. Only the active role tab, left panel content, Three.js visual, card title, and placeholder text differ.
+Build the **Service Provider Login Page** for HealthTracker — a premium healthcare SaaS platform. The implementation must **pixel-accurately match the provided design reference image**. The page uses the same split-panel shell as all other HealthTracker login pages. The left panel features a full bleed orange gradient background with a provider/doctor photograph blended into the lower portion — no Three.js visual element is visible as a hero; Three.js is a low-opacity ambient layer only. The form card is white, compact, and contains the standard login fields with "Provider Login" as the card title.
 
 **Design feel:** Operational · Professional · Clinical Infrastructure · Trustworthy
 
@@ -13,7 +13,7 @@ Build the **Service Provider Login Page** for HealthTracker — a premium health
 
 ## File Structure
 
-Strictly follow this structure. Do not deviate or add extra files unless listed:
+Strictly follow this structure. Do not add, rename, or remove any files:
 
 ```
 Healthtracker/
@@ -21,7 +21,7 @@ Healthtracker/
 ├── Home_Page/
 ├── Patients/
 └── Service_Provider/
-    ├── Registration_Page/       ← No changes to this folder
+    ├── Registration_Page/       ← EXISTING FOLDER — DO NOT TOUCH OR REGENERATE
     └── Login_Page/
         ├── index.html
         ├── tailwind.config.ts
@@ -33,9 +33,9 @@ Healthtracker/
                 └── Form.tsx
 ```
 
-- `App.tsx` → full split-screen layout, navbar, role tabs, Three.js left panel, provider image card, imports `Form.tsx`
+- `App.tsx` → full split-screen layout, navbar, role tabs, Three.js ambient canvas, provider photo layer, text overlay, imports `Form.tsx`
 - `Form.tsx` → provider login form card with all fields, state, and interactions
-- `Registration_Page/` is an existing folder — do not touch, modify, or regenerate anything inside it
+- `Registration_Page/` is an **existing folder** — do not touch, regenerate, or reference anything inside it
 
 ---
 
@@ -47,7 +47,7 @@ Healthtracker/
 | TypeScript | Strict mode — zero `any` types |
 | Tailwind CSS | All styling — no inline styles, no CSS modules |
 | GSAP | Page load animations + micro-interactions |
-| Three.js | Left panel rotating diagnostic grid ring |
+| Three.js | Left panel ambient background ring (very subtle, low opacity) |
 
 ---
 
@@ -57,10 +57,10 @@ Define in `tailwind.config.ts`. **Identical to all other HealthTracker pages —
 
 ```ts
 colors: {
-  coffee:  '#3B2F2F',   // Dark Coffee — navbar logo, labels, text
-  burnt:   '#D96C2D',   // Burnt Orange — active tab, CTA button, links, accents
-  sand:    '#E6D3B3',   // Muted Sand — tab container background, form card
-  ivory:   '#FAF7F0',   // Ivory White — right panel page background
+  coffee:  '#3B2F2F',   // Dark Coffee — navbar logo, labels, input text
+  burnt:   '#D96C2D',   // Burnt Orange — active tab, CTA, links, accents
+  sand:    '#E6D3B3',   // Muted Sand — role tab container background
+  ivory:   '#FAF7F0',   // Ivory White — right panel background
 }
 ```
 
@@ -71,12 +71,12 @@ colors: {
 ```
 ┌──────────────────────────┬──────────────────────────────────┐
 │    LEFT PANEL (50%)      │       RIGHT PANEL (50%)          │
-│    Dark-to-orange BG     │  Ivory White BG                  │
-│    Three.js grid ring    │  Navbar (minimal, top)           │
-│    Provider image card   │  Role Toggle Tabs                │
+│    Deep orange gradient  │  Ivory White BG                  │
+│    Three.js (ambient)    │  Navbar (minimal, top)           │
+│    Provider photo blend  │  Role Toggle Tabs                │
 │    "Clinical Sanctuary"  │  Provider Login Form Card        │
-│    Tagline + subtext     │  "Already have an account?" row  │
-│    Copyright bottom      │  Footer text (very bottom)       │
+│    Tagline + subtext     │  "Don't have an account?" row    │
+│    © copyright bottom    │  Social buttons + footer text    │
 └──────────────────────────┴──────────────────────────────────┘
 ```
 
@@ -91,79 +91,78 @@ colors: {
 Four stacked layers, bottom to top:
 
 ```
-Layer 0 (z-0):  Gradient background
-Layer 1 (z-1):  Three.js canvas (ambient, low opacity)
-Layer 2 (z-2):  Provider image card (bottom-left)
-Layer 3 (z-10): Text + UI overlay content
+Layer 0 (z-0):   Gradient background div
+Layer 1 (z-[1]): Three.js canvas (ambient, opacity-20)
+Layer 2 (z-[2]): Provider photo blend (bottom ~38% of panel)
+Layer 3 (z-10):  Text overlay content
 ```
 
 ---
 
 ### Layer 0 — Gradient Background
 - `absolute inset-0 z-0`
-- Inline style (only permitted one): `background: 'linear-gradient(to bottom, #3B2F2F 0%, #7a3010 45%, #D96C2D 100%)'`
+- Single permitted inline style: `background: 'linear-gradient(to bottom, #5a1a00 0%, #a03800 35%, #D96C2D 100%)'`
+- This produces the deep orange-brown-to-bright-orange gradient visible in the design
 
 ---
 
-### Layer 1 — Three.js Canvas (Ambient Diagnostic Ring)
-- `<canvas>` positioned `absolute inset-0 z-[1] w-full h-full opacity-25`
-- Keep opacity low — ambient only, not the visual hero
-- Scene setup (provider-themed — rotating diagnostic grid):
-  - `PerspectiveCamera` — FOV 60, z = 6
-  - `AmbientLight` — color `#ffffff`, intensity 0.2
-  - `PointLight` — color `#ff8844`, intensity 0.9, position (2, 1, 3)
-  - `PointLight` — color `#00ccaa`, intensity 0.4, position (-2, -1, 2)
-  - **Primary geometry**: `TorusGeometry(2.2, 0.035, 16, 80)` — large outer diagnostic ring
-  - **Secondary geometry**: `TorusGeometry(1.5, 0.02, 16, 80)` — mid ring, rotated on X-axis by `Math.PI / 4`
-  - **Tertiary geometry**: `TorusGeometry(0.9, 0.015, 16, 60)` — inner ring, rotated on Z-axis by `Math.PI / 6`
-  - All ring materials: `MeshStandardMaterial`, color `#ff9944`, emissive `#cc4400`, emissiveIntensity `0.6`
-  - **Grid lines** (12 evenly-spaced): `CylinderGeometry(0.008, 0.008, 4.4, 6)` spokes radiating from center, each rotated by `(i / 12) * Math.PI`, material color `#ff8833`, emissiveIntensity `0.3`
-  - Animation loop: entire scene group Y-axis rotation at `0.004` per frame; outer ring X-axis tilt at `0.001` per frame; group Y position: `Math.sin(elapsed * 0.6) * 0.1` (float)
+### Layer 1 — Three.js Canvas (Ambient Only)
+- `<canvas>` positioned `absolute inset-0 z-[1] w-full h-full opacity-20`
+- Opacity must stay at `0.20` or below — it is invisible ambient texture, not a visual hero
+- Scene setup:
+  - `PerspectiveCamera` — FOV 60, z = 5
+  - `AmbientLight` — color `#ffffff`, intensity 0.15
+  - `PointLight` — color `#ff8844`, intensity 0.7, position (0, 0, 3)
+  - Geometry: `TorusGeometry(2.0, 0.03, 16, 100)` — single large ring
+  - Material: `MeshStandardMaterial`, color `#ff9944`, emissive `#cc4400`, emissiveIntensity `0.5`
+  - Animation loop: Y-axis rotation at `0.003` per frame — no floating, no pulse, keep it static and unnoticeable
 
 ---
 
-### Layer 2 — Provider Image Card (Bottom-Left)
-- Container: `absolute bottom-12 left-8 z-[2]`
-- Card: `w-52 rounded-xl overflow-hidden relative` with subtle shadow `shadow-2xl`
-- Since no actual photo file is provided, render a **CSS card simulating a clinic/lab environment**:
-  - Card background: `linear-gradient(135deg, #1a0a00 0%, #4a1a00 50%, #8B4010 100%)`
-  - Height: `h-36`
-  - Inside: a simple SVG representing a building/clinic with a cross symbol and horizontal lines — representing a healthcare facility
-  - SVG fill: `white` at `opacity-20`, centered inside the card
-  - Warm orange overlay on top: `absolute inset-0 bg-gradient-to-tr from-burnt/40 via-transparent to-transparent`
-  - Bottom text strip inside card: `absolute bottom-0 left-0 right-0 bg-coffee/60 px-3 py-2`
-    - Text: `"CLINICAL PROVIDER"` — `text-[9px] tracking-widest text-white/60 uppercase`
-  - Card border: `border border-white/10`
-- GSAP on load: slide up from `y: 30` → `y: 0`, opacity 0 → 1, duration `0.9s`, delay `0.9s`
+### Layer 2 — Provider Photo Blend (Bottom of Panel)
+- Container: `absolute bottom-0 left-0 right-0 z-[2] h-[38%]`
+- Since no actual image file is provided, render a **CSS + SVG simulation** of a provider/doctor photograph:
+  - Outer div: `w-full h-full relative overflow-hidden`
+  - Inner background: `absolute inset-0 bg-gradient-to-b from-transparent via-[#c05010]/30 to-[#8B3010]/60` — this warms and darkens toward the bottom, blending the figure into the orange panel
+  - SVG provider figure (standing person in white coat, side profile with tablet/clipboard):
+    - Position: `absolute bottom-0 left-6` — slightly left of center, matching the design's composition
+    - Width: `w-44`, height auto
+    - SVG fill: `white` at `opacity-15` — very subtle, merges with the warm background
+    - Keep the SVG simple: rounded rectangle for body/coat, circle for head, a small rectangle for the tablet/clipboard in hand
+  - Top gradient fade: `absolute top-0 left-0 right-0 h-16 bg-gradient-to-b from-transparent to-transparent` (ensures seamless blend with the panel above)
+- GSAP on load: `y: 25 → 0`, opacity 0 → 1, duration `1s`, delay `0.9s`
 
 ---
 
-### Layer 3 — Text + UI Overlay
+### Layer 3 — Text Overlay
 - `absolute inset-0 z-10 flex flex-col px-8 py-7`
 
-**Top label:**
+**Top label row:**
 - `"Clinical Sanctuary"` — `text-sm font-semibold text-white/90 tracking-wide`
-- Decorative underline: `<div className="w-6 h-0.5 bg-white/40 mt-1.5">`
+- Decorative underline: `<div className="w-6 h-0.5 bg-white/35 mt-1.5">`
 
-**Main text block (`mt-8`):**
-- Heading: `"Restoring care through thoughtful design."` — `text-3xl font-bold text-white leading-tight`
-- Subtext: `"Join a community of healthcare professionals dedicated to delivering seamless and efficient clinical services."` — `text-xs text-white/60 mt-3 leading-relaxed max-w-[230px]`
+**Main text block (`mt-7 flex-1`):**
+- Heading (large, bold, multi-line as in design):
+  `"Restoring care through thoughtful design."` — `text-4xl font-bold text-white leading-tight max-w-[260px]`
+  - The heading wraps across 3 lines in the design: "Restoring care / through / thoughtful design." — the `max-w` constraint will force this wrapping naturally
+- Subtext: `"Join a community of healthcare professionals dedicated to a more humane approach to clinics excellence."` — `text-xs text-white/55 mt-4 leading-relaxed max-w-[220px]`
+  - Note: subtext in the design reads slightly differently — match this exact wording
 
 **Bottom copyright (`absolute bottom-6 left-8`):**
-- `"© 2024 RESTORATIVE CARE SYSTEMS"` — `text-[9px] text-white/25 tracking-widest uppercase`
+- `"© 2024 RESTORATIVE CARE SYSTEMS"` — `text-[9px] text-white/30 tracking-widest uppercase`
 
 ### GSAP — Left Panel Animations
 `gsap.timeline()` on mount:
-1. Top label: `y: -12 → 0`, opacity 0 → 1, duration `0.5s`
-2. Heading: `y: 18 → 0`, opacity 0 → 1, duration `0.7s`, delay `0.2s`
-3. Subtext: `y: 12 → 0`, opacity 0 → 1, duration `0.6s`, delay `0.35s`
-4. Provider image card: `y: 30 → 0`, opacity 0 → 1, duration `0.9s`, delay `0.9s`
+1. `"Clinical Sanctuary"` label: `y: -12 → 0`, opacity 0 → 1, duration `0.5s`
+2. Heading: `y: 20 → 0`, opacity 0 → 1, duration `0.75s`, delay `0.2s`
+3. Subtext: `y: 14 → 0`, opacity 0 → 1, duration `0.6s`, delay `0.38s`
+4. Provider photo layer: `y: 25 → 0`, opacity 0 → 1, duration `1s`, delay `0.9s`
 
 ---
 
 ## RIGHT PANEL — Navbar (App.tsx)
 
-**Pixel-identical to Patient and Doctor Login navbars — no changes:**
+**Pixel-identical to all other HealthTracker login navbars:**
 - `flex items-center justify-between px-8 py-4`
 - Logo left: `"HealthTrack"` — `text-lg font-bold text-coffee`
 - Nav links: `Find Doctors · Lab Tests · Articles · Trackers` — `text-sm text-coffee/60 flex gap-5 hover:text-coffee transition`
@@ -182,15 +181,15 @@ Layer 3 (z-10): Text + UI overlay content
 | For Doctors | Inactive | `text-coffee/65 px-5 py-2 text-sm hover:text-coffee transition` |
 | **For Providers** | **Active** | `bg-burnt text-white rounded-full px-5 py-2 text-sm font-semibold` |
 
-- "For Providers" is permanently active — tabs are display-only, no routing needed
+- "For Providers" is permanently active on this page — tabs are display-only, no routing needed
 
 ---
 
 ## Form Card Container (App.tsx)
 
 - `mx-auto w-[82%] max-w-[320px]`
-- Card: `bg-sand rounded-2xl shadow-xl p-7`
-- Note: card background is **sand** (`#E6D3B3`) — matching the Patient Login card, not white like the Doctor Login card
+- Card: `bg-white rounded-2xl shadow-lg p-7`
+- Card background is **white** (`#ffffff`) — the design shows a bright white card against the ivory right panel. Not sand.
 
 ---
 
@@ -204,13 +203,12 @@ All state via `useState`. No backend. TypeScript interfaces required.
 
 ---
 
-### Field 1 — PROVIDER ID
+### Field 1 — USER ID
 
-- Section label: `"PROVIDER ID"` — `text-[10px] font-bold tracking-widest text-coffee/45 uppercase mb-1.5`
+- Section label: `"USER ID"` — `text-[10px] font-bold tracking-widest text-coffee/45 uppercase mb-1.5`
 - Input container: `relative flex items-center`
-- Left icon: building/store SVG — `absolute left-3 w-3.5 h-3.5 text-coffee/35`
-  - Use a simple hospital/building outline SVG path, or fallback to the person icon if SVG is complex
-- Input: `type="text"`, placeholder `"Enter your clinic ID / business ID"`, `pl-8`
+- Left icon: person/user SVG — `absolute left-3 w-3.5 h-3.5 text-coffee/35`
+- Input: `type="text"`, placeholder `"Enter your provider ID"`, `pl-8`
 - Standard input styling (see Shared Input Styles)
 
 ---
@@ -221,10 +219,10 @@ All state via `useState`. No backend. TypeScript interfaces required.
 - Input container: `relative flex items-center`
 - Left icon: lock SVG — `absolute left-3 w-3.5 h-3.5 text-coffee/35`
 - Input: `type="password"` (toggle-able), placeholder dots `"••••••••"`, `pl-8 pr-9`
-- Right: eye icon — `absolute right-3 w-3.5 h-3.5 text-coffee/35 cursor-pointer hover:text-coffee transition`
-- State: `useState<boolean>(false)` for visibility
+- Right eye icon: `absolute right-3 w-3.5 h-3.5 text-coffee/35 cursor-pointer hover:text-coffee transition`
+- State: `useState<boolean>(false)` for visibility toggle
 
-**Forgot Password link (right-aligned):**
+**Forgot Password link (right-aligned, below password input):**
 - `text-right mt-1.5`
 - `"Forgot Password?"` — `text-xs text-burnt hover:text-[#b85a22] cursor-pointer underline transition`
 
@@ -238,7 +236,7 @@ All state via `useState`. No backend. TypeScript interfaces required.
 - On hover: `gsap.to(btnRef.current, { scale: 1.02, duration: 0.15 })`
 - On leave: `gsap.to(btnRef.current, { scale: 1, duration: 0.15 })`
 - On click: loading spinner replaces text for 1.5s, then restores
-- On error: GSAP shake — `gsap.to(btnRef.current, { keyframes: { x: [-5, 5, -4, 4, 0] }, duration: 0.35 })`
+- On error (`loginError === true`): GSAP shake — `gsap.to(btnRef.current, { keyframes: { x: [-5, 5, -4, 4, 0] }, duration: 0.35 })`
 
 ---
 
@@ -258,11 +256,11 @@ All state via `useState`. No backend. TypeScript interfaces required.
 
 ---
 
-### Social Login Buttons (UI only)
+### Social Login Buttons (UI only — no logic)
 
 - `flex justify-center gap-2.5 mt-3.5`
-- Two small square icon buttons, identical to all other login pages:
-  - Style: `w-9 h-9 rounded-lg border border-coffee/20 bg-ivory/60 flex items-center justify-center hover:bg-ivory transition cursor-pointer`
+- Two small square icon buttons — **identical across all login pages:**
+  - Style: `w-9 h-9 rounded-lg border border-coffee/15 bg-ivory/70 flex items-center justify-center hover:bg-ivory transition cursor-pointer`
   - Button 1: Google `G` SVG icon, `w-4 h-4`
   - Button 2: grid/apps SVG icon, `w-4 h-4 text-coffee/45`
 
@@ -277,16 +275,16 @@ All state via `useState`. No backend. TypeScript interfaces required.
 
 ## Shared Input Styles
 
-All inputs use this class set — **identical to Doctor Login inputs:**
+All inputs use this exact class set:
 
 ```
-w-full bg-[#ddd0b8] border border-coffee/15 rounded-lg px-3 py-2
+w-full bg-[#f0ebe3] border border-coffee/15 rounded-lg px-3 py-2
 text-xs text-coffee placeholder:text-coffee/30
 focus:outline-none focus:border-burnt focus:ring-1 focus:ring-burnt/20
 transition-all duration-150
 ```
 
-Note: input background `#ddd0b8` gives visible contrast against the sand card background (`#E6D3B3`).
+Input background `#f0ebe3` gives a subtle warm tint inside the white card, matching the design's barely-visible input fill.
 
 ---
 
@@ -306,7 +304,7 @@ interface ProviderLoginFormState {
 
 ## GSAP Animations — Full Sequence (App.tsx)
 
-`gsap.timeline()` on mount — **same timing as Patient and Doctor Login:**
+`gsap.timeline()` on mount — **same timing as all other HealthTracker login pages:**
 
 | Step | Target | Animation | Delay |
 |---|---|---|---|
@@ -322,80 +320,83 @@ interface ProviderLoginFormState {
 
 ---
 
-## Difference Table — Provider Login vs Patient Login vs Doctor Login
+## Three-Way Difference Table
 
 | Element | Patient Login | Doctor Login | Provider Login |
 |---|---|---|---|
 | Active role tab | For Patients | For Doctors | **For Providers** |
-| Card background | `#E6D3B3` sand | `#ffffff` white | **`#E6D3B3` sand** |
-| Card has large title | Yes | No (subtitle only) | **Yes** |
-| Card title text | "Patient Login" | — | **"Provider Login"** |
-| Field 1 label | USER ID | USER ID | **PROVIDER ID** |
-| Field 1 left icon | Person | Person | **Building/Store** |
-| Field 1 placeholder | "Enter your patient ID" | "Enter your doctor ID" | **"Enter your clinic ID / business ID"** |
-| Three.js visual | Sphere + torus | Ambient torus rings | **Diagnostic grid rings (3 concentric + spokes)** |
-| Left panel hero visual | Three.js sphere | Doctor photo blend | **Provider image card (bottom-left)** |
-| Stats / progress element | 99.9% / 24/7 text | 70% circular ring | **None — image card replaces it** |
+| Card background | `#E6D3B3` sand | `#ffffff` white | **`#ffffff` white** |
+| Card title | "Patient Login" | None (subtitle only) | **"Provider Login"** |
+| Field 1 label | USER ID | USER ID | **USER ID** |
+| Field 1 left icon | Person | Person | **Person** |
+| Field 1 placeholder | "patient ID" | "doctor ID" | **"provider ID"** |
+| Left panel hero | Three.js sphere | Doctor photo blend | **Provider photo blend** |
+| Three.js opacity | High (hero) | 0.20 (ambient) | **0.20 (ambient)** |
+| Stats element | 99.9% / 24/7 text | 70% SVG ring | **None** |
 | Tagline | "The Sanctuary for Your Clinical Journey." | "The Future of Restorative Care." | **"Restoring care through thoughtful design."** |
+| Subtext | peace of mind / focus | clarity / warmth | **humane approach to clinics excellence** |
+| Photo placement | No photo | Bottom 65%, full bleed | **Bottom 38%, left-offset** |
+| Copyright | "RESTORATIVE CARE SYSTEMS" | same | **same** |
 | State interface | `LoginFormState` | `DoctorLoginFormState` | **`ProviderLoginFormState`** |
-| Field key name | `userId` | `doctorId` | **`providerId`** |
+| Field key | `userId` | `doctorId` | **`providerId`** |
 
 ---
 
-## What Must Stay Identical to All Other Login Pages
+## What Must Stay Identical Across All Login Pages
 
-The following must be **pixel-for-pixel consistent** — do not alter:
+Do not alter any of the following — they must be pixel-consistent:
 
-- Left panel gradient colors and direction
-- Navbar structure, logo, nav links, Sign In button style
-- Role tab container shape, padding, inactive tab styles
-- CTA button shape, color, hover/click/error animations
-- Divider style and "OR REGISTER" text
-- Social login button size, shape, border, background
-- Footer text style, position, and content
-- All GSAP timing values and easing functions
-- Input border, focus ring color, placeholder color
+- Left panel gradient color values and direction
+- Navbar structure, logo style, nav links, Sign In button
+- Role tab container shape (`rounded-full bg-sand p-1`), padding, inactive tab styles
+- CTA button shape, color (`bg-burnt`), text size, hover/click/error animations
+- Divider style and "OR REGISTER" label
+- Social login button size (`w-9 h-9`), shape, border, background
+- Right panel footer text content and styling
+- All GSAP timeline timing and easing values
+- Input border, focus ring color, placeholder opacity
 
 ---
 
 ## Rules & Constraints
 
-- No inline styles except the left panel gradient background (one permitted exception)
-- Zero `any` types anywhere in TypeScript
+- No inline styles except the left panel gradient (one permitted exception)
+- Zero `any` types in TypeScript — use the interface from `Form.tsx`
 - No external UI libraries (no shadcn, MUI, Radix, Framer Motion) — Tailwind + GSAP only
 - No real authentication logic — form state is display only
 - "Forgot Password?" is a styled link only — no routing or modal
-- Social login buttons are UI-only — no OAuth integration
+- Social login buttons are UI-only — no OAuth
 - Role tabs are display-only — "For Providers" is permanently active
-- Three.js canvas opacity must stay at `0.25` — ambient only
-- Do not modify or reference anything inside `Registration_Page/`
+- Three.js canvas opacity must be `0.20` or lower — it is ambient background only
+- `Registration_Page/` folder must not be touched, regenerated, or referenced
 
 ---
 
 ## Output Checklist
 
-- [ ] Left panel gradient renders correctly (dark coffee top → burnt orange bottom)
-- [ ] Three.js diagnostic grid rings render at low opacity as ambient background
-- [ ] Provider image card renders at bottom-left with clinic SVG, warm overlay, and "CLINICAL PROVIDER" strip
-- [ ] Provider image card slides up on page load via GSAP
+- [ ] Left panel gradient renders as deep orange-brown top to bright orange bottom
+- [ ] Three.js torus ring renders at `opacity-20` as ambient background
+- [ ] Provider photo CSS/SVG layer renders in bottom 38% of left panel, left-offset, warm tint blended
+- [ ] Provider photo layer slides up on page load via GSAP (delay 0.9s)
 - [ ] "Clinical Sanctuary" top label with decorative underline renders
-- [ ] Provider tagline "Restoring care through thoughtful design." renders correctly
-- [ ] Subtext renders in small muted text below tagline
-- [ ] Copyright text renders at very bottom-left of left panel
+- [ ] Heading "Restoring care through thoughtful design." wraps naturally across 3 lines
+- [ ] Subtext renders in small muted text below heading
+- [ ] "© 2024 RESTORATIVE CARE SYSTEMS" renders at very bottom-left of left panel
 - [ ] Navbar is pixel-identical to all other HealthTracker login navbars
 - [ ] "For Providers" tab is active (burnt orange pill), others inactive
-- [ ] Login card background is **sand** (`#E6D3B3`), compact, `max-w-[320px]`
+- [ ] Login card is **white** (`#ffffff`), compact `max-w-[320px]`, with shadow
 - [ ] Card shows "Provider Login" title + subtitle
-- [ ] PROVIDER ID field renders with building/store left icon + correct placeholder
-- [ ] PASSWORD field renders with lock left icon + eye toggle
-- [ ] "Forgot Password?" renders right-aligned below password field
-- [ ] "Login →" CTA shows loading spinner on click
+- [ ] USER ID field has person left icon + placeholder "Enter your provider ID"
+- [ ] PASSWORD field has lock left icon + eye toggle on right
+- [ ] "Forgot Password?" right-aligned below password field in burnt orange
+- [ ] "Login →" CTA full-width, burnt orange, shows loading spinner on click
 - [ ] Login button shakes on error state
-- [ ] "OR REGISTER" divider renders
+- [ ] "OR REGISTER" divider renders between CTA and register link
 - [ ] "Don't have an account? Register" link renders
 - [ ] Two social login icon buttons render
-- [ ] Footer text renders at very bottom of right panel
-- [ ] GSAP load sequence fires in correct order with correct timing
-- [ ] `Registration_Page/` folder untouched
+- [ ] Right panel footer text renders at very bottom
+- [ ] GSAP page load sequence fires in correct order with correct timing
+- [ ] `Registration_Page/` folder is completely untouched
 - [ ] Zero TypeScript errors
 - [ ] Zero console errors
+- [ ] Pixel-accurate match to design reference image
