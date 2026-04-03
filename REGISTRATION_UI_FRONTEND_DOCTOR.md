@@ -7,6 +7,8 @@
 
 Build the **Doctor Registration Page** for HealthTracker — a premium healthcare SaaS platform. The implementation must **pixel-accurately match the provided design reference image**. The left panel is identical to the Patient Registration left panel (same 3D avatar card, same tagline, same feature badges). The right panel contains a long scrollable doctor-specific registration form with 10 structured sections. The role tab shows "For Doctors" as active.
 
+Implement this design from Figma.
+Figma MCP of Doctors: https://www.figma.com/design/zxejwysw660pSV5ZYy1QAY/Healthtracker-UI?node-id=13-444&m=dev
 **Design feel:** Premium · Clinical · Structured · Trustworthy
 
 ---
