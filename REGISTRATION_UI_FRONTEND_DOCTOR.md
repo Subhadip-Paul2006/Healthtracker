@@ -18,11 +18,11 @@ Strictly follow this structure. Do not touch any sibling folders:
 ```
 Healthtracker/
 ├── MASTER_PROMPT.md
-├── Home_Page/              ← DO NOT TOUCH
-├── Patients/               ← DO NOT TOUCH
-├── Service_Provider/       ← DO NOT TOUCH
+├── Home_Page/              ← EXISTING FOLDER — DO NOT TOUCH OR REGENERATE
+├── Patients/               ← EXISTING FOLDER — DO NOT TOUCH OR REGENERATE
+├── Service_Provider/       ← EXISTING FOLDER — DO NOT TOUCH OR REGENERATE
 └── Doctors/
-    ├── Log_In/             ← DO NOT TOUCH
+    ├── Log_In/             ← EXISTING FOLDER — DO NOT TOUCH OR REGENERATE
     └── Registration_Page/
         ├── index.html
         ├── tailwind.config.ts
