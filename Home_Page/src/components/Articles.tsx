@@ -30,7 +30,7 @@ export function Articles() {
           <p className="text-sand/80 text-body mb-10 max-w-md">
             Stay informed with the latest medical research, wellness tips, and guides curated by our network of trusted healthcare professionals.
           </p>
-          <Button variant="outline">Read All Articles</Button>
+          <Button variant="sand">Read All Articles</Button>
         </div>
 
         {/* Right Side Cards */}

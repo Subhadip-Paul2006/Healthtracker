@@ -1,3 +1,5 @@
+import { ArrowRight } from 'lucide-react';
+
 const footerLinks = {
   'For Patient': ['Find Doctors', 'Book Lab Tests', 'Health Articles', 'Activity Trackers'],
   'For Clinic': ['Partner with us', 'Clinic Software', 'Pricing', 'Resources'],
@@ -18,9 +20,12 @@ export function Footer() {
             </p>
             <div className="flex gap-4">
               {['Facebook', 'Twitter', 'Instagram'].map(social => (
-                <a key={social} href="#" className="w-10 h-10 rounded-full border border-sand/20 flex items-center justify-center text-sand hover:border-orange-burnt hover:text-orange-burnt transition-colors group">
+                <a key={social} href="#" className="group relative flex items-center justify-center w-10 h-10 overflow-hidden rounded-full border-[1.5px] border-[#C9A87C]/40 bg-transparent cursor-pointer transition-all duration-[600ms] ease-[cubic-bezier(0.23,1,0.32,1)] hover:border-transparent hover:rounded-[8px] active:scale-[0.95]">
                   <span className="sr-only">{social}</span>
-                  <div className="w-4 h-4 bg-current transform group-hover:scale-110 transition-transform mask-social" />
+                  <div className="w-4 h-4 bg-[#C9A87C] group-hover:bg-[#3D2314] transform group-hover:scale-110 transition-all duration-[600ms] mask-social" />
+                  
+                  {/* Circle */}
+                  <span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-2 h-2 bg-[#C9A87C] rounded-[50%] opacity-0 group-hover:w-[50px] group-hover:h-[50px] group-hover:opacity-100 transition-all duration-[800ms] ease-[cubic-bezier(0.19,1,0.22,1)]"></span>
                 </a>
               ))}
             </div>
@@ -32,8 +37,15 @@ export function Footer() {
               <ul className="space-y-4">
                 {links.map(link => (
                   <li key={link}>
-                    <a href="#" className="text-sand/70 hover:text-orange-burnt transition-colors text-sm font-semibold">
-                      {link}
+                    {/* FlowButton styled footer link */}
+                    <a href="#" className="group/link relative inline-flex items-center gap-1 overflow-hidden text-[#C9A87C]/70 hover:text-[#3D2314] transition-all duration-[600ms] ease-[cubic-bezier(0.23,1,0.32,1)] text-sm font-semibold">
+                      <span className="relative z-[1] transition-transform duration-[600ms] group-hover/link:translate-x-1">
+                        {link}
+                      </span>
+                      <ArrowRight className="w-3 h-3 opacity-0 -translate-x-2 group-hover/link:opacity-100 group-hover/link:translate-x-0 transition-all duration-[600ms] stroke-[#C2410C]" />
+                      
+                      {/* Underline effect */}
+                      <span className="absolute bottom-0 left-0 w-0 h-[1px] bg-[#C2410C] group-hover/link:w-full transition-all duration-[600ms] ease-[cubic-bezier(0.23,1,0.32,1)]"></span>
                     </a>
                   </li>
                 ))}
@@ -45,8 +57,14 @@ export function Footer() {
         <div className="pt-8 border-t border-sand/10 flex flex-col md:flex-row items-center justify-between text-xs text-sand/50 font-semibold gap-4">
           <p>&copy; {new Date().getFullYear()} HealthTrack. All rights reserved.</p>
           <div className="flex gap-6">
-            <a href="#" className="hover:text-sand transition-colors">Accessibility</a>
-            <a href="#" className="hover:text-sand transition-colors">Cookie Policy</a>
+            <a href="#" className="group/link relative inline-flex items-center gap-1 overflow-hidden text-[#C9A87C]/50 hover:text-[#FAF3E0] transition-all duration-[600ms] ease-[cubic-bezier(0.23,1,0.32,1)]">
+              <span className="relative z-[1]">Accessibility</span>
+              <span className="absolute bottom-0 left-0 w-0 h-[1px] bg-[#C9A87C] group-hover/link:w-full transition-all duration-[600ms] ease-[cubic-bezier(0.23,1,0.32,1)]"></span>
+            </a>
+            <a href="#" className="group/link relative inline-flex items-center gap-1 overflow-hidden text-[#C9A87C]/50 hover:text-[#FAF3E0] transition-all duration-[600ms] ease-[cubic-bezier(0.23,1,0.32,1)]">
+              <span className="relative z-[1]">Cookie Policy</span>
+              <span className="absolute bottom-0 left-0 w-0 h-[1px] bg-[#C9A87C] group-hover/link:w-full transition-all duration-[600ms] ease-[cubic-bezier(0.23,1,0.32,1)]"></span>
+            </a>
           </div>
         </div>
       </div>

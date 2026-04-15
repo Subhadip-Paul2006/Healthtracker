@@ -2,6 +2,7 @@ import React, { Suspense, useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { Navbar } from './components/Navbar';
 import { Hero } from './components/Hero';
+import { Clients } from './components/Clients';
 import { useParallax } from './hooks/useParallax';
 import { initScrollReveal, killScrollTriggers } from './animations/scrollReveal';
 import { runPageLoadAnimation } from './animations/pageLoad';
@@ -14,6 +15,7 @@ const Analytics = React.lazy(() => import('./components/Analytics').then(m => ({
 const Testimonials = React.lazy(() => import('./components/Testimonials').then(m => ({ default: m.Testimonials })));
 const CTA = React.lazy(() => import('./components/CTA').then(m => ({ default: m.CTA })));
 const Stats = React.lazy(() => import('./components/Stats').then(m => ({ default: m.Stats })));
+const FAQ = React.lazy(() => import('./components/FAQ').then(m => ({ default: m.FAQ })));
 const Footer = React.lazy(() => import('./components/Footer').then(m => ({ default: m.Footer })));
 
 function Home() {
@@ -40,6 +42,7 @@ function Home() {
       <Navbar />
       <main>
         <Hero />
+        <Clients />
         <Suspense fallback={<div className="h-64 w-full flex items-center justify-center"><div className="w-8 h-8 rounded-full border-2 border-orange-burnt border-t-transparent animate-spin"></div></div>}>
           <Services />
           <Articles />
@@ -50,6 +53,7 @@ function Home() {
         </Suspense>
       </main>
       <Suspense fallback={null}>
+        <FAQ />
         <Footer />
       </Suspense>
     </div>

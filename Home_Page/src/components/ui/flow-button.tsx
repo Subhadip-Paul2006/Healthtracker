@@ -1,17 +1,28 @@
-import type { ButtonHTMLAttributes } from 'react';
 import { ArrowRight } from 'lucide-react';
 
-interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+interface FlowButtonProps {
+  text?: string;
   variant?: 'primary' | 'outline' | 'sand' | 'dark';
   fullWidth?: boolean;
+  onClick?: () => void;
+  className?: string;
+  type?: 'button' | 'submit' | 'reset';
 }
 
-export function Button({ variant = 'primary', fullWidth, className = '', children, ...props }: ButtonProps) {
+export function FlowButton({ 
+  text = "Modern Button", 
+  variant = 'primary',
+  fullWidth = false,
+  onClick,
+  className = '',
+  type = 'button'
+}: FlowButtonProps) {
+  
   // Color palette:
-  // - Dark coffee brown: #3D2314
-  // - Burnt orange: #C2410C
-  // - Mint sand: #C9A87C
-  // - Cloudy white: #FAF3E0
+  // - Dark coffee brown: #3D2314 (coffee-dark)
+  // - Burnt orange: #C2410C (orange-burnt)
+  // - Mint sand: #C9A87C (sand)
+  // - Cloudy white: #FAF3E0 (ivory)
   
   const variantStyles = {
     primary: {
@@ -61,8 +72,9 @@ export function Button({ variant = 'primary', fullWidth, className = '', childre
   
   return (
     <button 
+      type={type}
+      onClick={onClick}
       className={`group relative flex items-center justify-center gap-1 overflow-hidden rounded-[100px] border-[1.5px] ${styles.border} ${styles.bg} ${widthClass} ${className} px-8 py-3 text-sm font-semibold ${styles.text} cursor-pointer transition-all duration-[600ms] ease-[cubic-bezier(0.23,1,0.32,1)] ${styles.hoverBorder} ${styles.hoverText} hover:rounded-[12px] active:scale-[0.95]`}
-      {...props}
     >
       {/* Left arrow (arr-2) */}
       <ArrowRight 
@@ -71,7 +83,7 @@ export function Button({ variant = 'primary', fullWidth, className = '', childre
 
       {/* Text */}
       <span className="relative z-[1] -translate-x-3 group-hover:translate-x-3 transition-all duration-[800ms] ease-out">
-        {children}
+        {text}
       </span>
 
       {/* Circle */}
