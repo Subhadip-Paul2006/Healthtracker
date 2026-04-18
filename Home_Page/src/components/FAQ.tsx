@@ -1,4 +1,3 @@
-import { SectionLabel } from './ui/SectionLabel';
 import ScrollFAQAccordion from './ui/scroll-faqaccordion';
 
 const faqData = [
@@ -54,7 +53,7 @@ const faqData = [
 
 export function FAQ() {
   return (
-    <section className="bg-coffee-black relative z-10 border-t border-sand/5 overflow-hidden">
+    <section className="relative z-10 overflow-hidden border-t border-sand/5 bg-transparent">
       <div className="container mx-auto px-6">
         <ScrollFAQAccordion data={faqData} />
       </div>

@@ -3,7 +3,7 @@ import { Button } from './ui/Button';
 
 export function CTA() {
   return (
-    <section className="py-24 bg-cta-gradient relative z-10 overflow-hidden border-t border-sand/5">
+    <section className="relative z-10 overflow-hidden border-t border-sand/5 bg-transparent py-24">
       <div className="container mx-auto px-6 grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-12 items-center">
         
         {/* Left - Phone Mockup (5/12) */}

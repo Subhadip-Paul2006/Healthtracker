@@ -20,7 +20,7 @@ const articles = [
 
 export function Articles() {
   return (
-    <section className="py-24 bg-coffee-mid relative z-10 border-t border-sand/5">
+    <section className="relative z-10 py-24 border-t border-sand/5 bg-transparent">
       <div className="container mx-auto px-6 grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-8 items-center">
         
         {/* Left Side */}

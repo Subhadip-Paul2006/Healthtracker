@@ -344,7 +344,9 @@ const Form: React.FC = () => {
               {[0, 1, 2, 3, 4, 5].map((idx) => (
                 <input
                   key={idx}
-                  ref={(el) => (otpRefs.current[idx] = el)}
+                  ref={(el) => {
+                    otpRefs.current[idx] = el
+                  }}
                   type="text"
                   maxLength={1}
                   className="w-11 h-11 text-center text-lg font-medium text-coffee border border-coffee/20 rounded-lg bg-[#d9d0c0] focus:border-burnt focus:ring-1 focus:ring-burnt outline-none transition-all duration-150"

@@ -71,9 +71,8 @@ export function Testimonials() {
       badgeText="Trusted by thousands"
       testimonials={testimonials}
       autoRotateInterval={6000}
-      trustedCompanies={["Apollo Hospitals", "Fortis Healthcare", "Max Healthcare", "AIIMS", "Medanta"]}
-      trustedCompaniesTitle="Trusted by leading healthcare institutions"
-      className="bg-coffee-deep"
+      trustedCompanies={[]}
+      className="bg-transparent"
     />
   );
 }

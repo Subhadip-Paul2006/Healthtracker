@@ -81,8 +81,8 @@ export function Hero() {
             <StatChip icon="🧪" text="Lab Result Ready" className="transform -rotate-[10deg]" />
           </div>
 
-          {/* Layer 4: Ground glow line */}
-          <div className="absolute -bottom-10 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-orange-burnt/50 to-transparent z-0" />
+          {/* Layer 4: Transition glow */}
+          <div className="absolute -bottom-14 left-1/2 h-20 w-[85%] -translate-x-1/2 rounded-full bg-orange-burnt/12 blur-3xl z-0" />
         </div>
       </div>
     </section>

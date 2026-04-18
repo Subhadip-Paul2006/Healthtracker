@@ -35,7 +35,7 @@ const CustomTooltip = ({ active, payload, label }: any) => {
 
 export function Analytics() {
   return (
-    <section className="py-24 bg-coffee-black relative z-10 overflow-hidden border-t border-sand/5">
+    <section className="relative z-10 overflow-hidden border-t border-sand/5 bg-transparent py-24">
       <div className="container mx-auto px-6">
         <div className="text-center mb-16 reveal-block">
           <SectionLabel>Analytics</SectionLabel>

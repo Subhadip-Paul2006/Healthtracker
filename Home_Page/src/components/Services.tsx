@@ -10,7 +10,7 @@ const services = [
 
 export function Services() {
   return (
-    <section className="py-24 bg-coffee-black relative z-10">
+    <section className="relative z-10 py-24 bg-transparent">
       <div className="container mx-auto px-6">
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 reveal-block">
           <div>

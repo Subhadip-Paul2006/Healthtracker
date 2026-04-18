@@ -3,6 +3,7 @@ import { Routes, Route } from 'react-router-dom';
 import { Navbar } from './components/Navbar';
 import { Hero } from './components/Hero';
 import { Clients } from './components/Clients';
+import { AnimatedShaderHeroBackground } from './components/ui/animated-shader-hero';
 import { useParallax } from './hooks/useParallax';
 import { initScrollReveal, killScrollTriggers } from './animations/scrollReveal';
 import { runPageLoadAnimation } from './animations/pageLoad';
@@ -38,19 +39,25 @@ function Home() {
   }, []);
 
   return (
-    <div className="bg-coffee-black min-h-screen text-sand font-body w-full overflow-x-hidden selection:bg-orange-burnt/30 selection:text-ivory">
+    <div className="relative min-h-screen w-full overflow-x-hidden bg-coffee-black font-body text-sand selection:bg-orange-burnt/30 selection:text-ivory">
+      <div className="pointer-events-none fixed inset-0 z-0">
+        <AnimatedShaderHeroBackground />
+        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(10,5,2,0.78)_0%,rgba(18,9,3,0.5)_28%,rgba(18,9,3,0.62)_100%)]" />
+      </div>
       <Navbar />
-      <main>
+      <main className="relative z-10">
         <Hero />
-        <Clients />
-        <Suspense fallback={<div className="h-64 w-full flex items-center justify-center"><div className="w-8 h-8 rounded-full border-2 border-orange-burnt border-t-transparent animate-spin"></div></div>}>
-          <Services />
-          <Articles />
-          <Analytics />
-          <Testimonials />
-          <CTA />
-          <Stats />
-        </Suspense>
+        <div className="relative">
+          <Clients />
+          <Suspense fallback={<div className="flex h-64 w-full items-center justify-center"><div className="h-8 w-8 rounded-full border-2 border-orange-burnt border-t-transparent animate-spin"></div></div>}>
+            <Services />
+            <Articles />
+            <Analytics />
+            <Testimonials />
+            <CTA />
+            <Stats />
+          </Suspense>
+        </div>
       </main>
       <Suspense fallback={null}>
         <FAQ />

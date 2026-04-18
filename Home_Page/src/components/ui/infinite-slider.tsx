@@ -49,8 +49,9 @@ export function InfiniteSlider({
     
     if (!container || !content) return
 
-    const containerWidth = container.offsetWidth
     const contentWidth = content.scrollWidth
+
+    void container.offsetWidth
 
     const animate = async () => {
       if (direction === "horizontal") {
