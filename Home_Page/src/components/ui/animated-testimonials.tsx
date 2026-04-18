@@ -3,7 +3,7 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Separator } from "@/components/ui/separator"
 import { Quote, Star } from "lucide-react"
-import { motion, useAnimation, useInView } from "framer-motion"
+import { motion, useAnimation, useInView, type Variants } from "framer-motion"
 import { useEffect, useRef, useState } from "react"
 
 export interface Testimonial {
@@ -56,14 +56,14 @@ export function AnimatedTestimonials({
     },
   }
 
-  const itemVariants = {
+  const itemVariants: Variants = {
     hidden: { opacity: 0, y: 20 },
     visible: {
       opacity: 1,
       y: 0,
       transition: {
         duration: 0.5,
-        ease: "easeOut",
+        ease: [0.4, 0, 0.2, 1],
       },
     },
   }
@@ -140,7 +140,7 @@ export function AnimatedTestimonials({
                   x: activeIndex === index ? 0 : 100,
                   scale: activeIndex === index ? 1 : 0.9,
                 }}
-                transition={{ duration: 0.5, ease: "easeInOut" }}
+                transition={{ duration: 0.5, ease: [0.42, 0, 0.58, 1] as [number, number, number, number] }}
                 style={{ zIndex: activeIndex === index ? 10 : 0 }}
               >
                 <div className="bg-graphite border border-sand/10 shadow-lg rounded-xl p-8 h-full flex flex-col">

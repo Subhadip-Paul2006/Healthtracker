@@ -9,6 +9,8 @@ import { initScrollReveal, killScrollTriggers } from './animations/scrollReveal'
 import { runPageLoadAnimation } from './animations/pageLoad';
 import RegistrationPage from './pages/Registration/RegistrationPage';
 
+const ArticlesPage = React.lazy(() => import('./pages/Articles/ArticlesPage'));
+
 // Lazy load below-the-fold components
 const Services = React.lazy(() => import('./components/Services').then(m => ({ default: m.Services })));
 const Articles = React.lazy(() => import('./components/Articles').then(m => ({ default: m.Articles })));
@@ -72,6 +74,20 @@ function App() {
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/register" element={<RegistrationPage />} />
+      <Route
+        path="/articles"
+        element={
+          <Suspense
+            fallback={
+              <div className="flex min-h-svh items-center justify-center bg-article-bg text-article-fg">
+                <div className="h-10 w-10 animate-spin rounded-full border-2 border-article-primary border-t-transparent" />
+              </div>
+            }
+          >
+            <ArticlesPage />
+          </Suspense>
+        }
+      />
     </Routes>
   );
 }
