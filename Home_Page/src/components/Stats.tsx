@@ -30,7 +30,7 @@ function StatItem({ stat }: { stat: typeof statData[0] }) {
 
 export function Stats() {
   return (
-    <section className="bg-coffee-deep border-y border-sand/5 relative z-10">
+    <section className="relative z-10 border-y border-sand/5 bg-transparent">
       <div className="container mx-auto px-6">
         <div className="grid grid-cols-2 lg:grid-cols-4 divide-x divide-y lg:divide-y-0 divide-sand/10 reveal-block">
           {statData.map((stat, i) => (

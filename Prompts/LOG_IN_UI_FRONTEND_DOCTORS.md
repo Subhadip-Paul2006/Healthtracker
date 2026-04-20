@@ -6,7 +6,9 @@
 ## Objective
 
 Build the **Doctor Login Page** for HealthTracker — a premium healthcare SaaS platform. The implementation must **pixel-accurately match the provided design reference image**. The page shares the split-panel shell with the Patient Login page, with the following doctor-specific differences: the active role tab is "For Doctors", the left panel features a real doctor photograph blended into the gradient with a 70% circular progress ring, and the Three.js visual is a floating torus ring layered subtly behind the photo. The form card is compact, white, and contains only the essential login fields with no large heading.
-
+Implement this design from Figma.<br>
+Figma MCP: @https://www.figma.com/design/zxejwysw660pSV5ZYy1QAY/Healthtracker-UI?node-id=19-272&m=dev <br>
+Sample Image : Prompt_Assets/Doctors_Login.png <br>
 **Design feel:** Professional · Clinical · Confident · Trustworthy
 
 ---

@@ -1,0 +1,114 @@
+/* HealthTrack Articles — mesh, grain, reveal, card-tilt, reduced motion */
+
+.articles-root {
+  --article-primary: #e56b2a;
+  --article-secondary: #c7d3bd;
+}
+
+.mesh-bg {
+  background-color: #120903;
+  background-image:
+    radial-gradient(ellipse 90% 70% at 50% -25%, rgba(229, 107, 42, 0.18), transparent),
+    radial-gradient(ellipse 55% 45% at 110% 40%, rgba(199, 211, 189, 0.09), transparent),
+    radial-gradient(ellipse 45% 35% at -10% 60%, rgba(229, 107, 42, 0.06), transparent);
+  background-size: 200% 200%;
+  animation: gradient-shift 8s ease infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mesh-bg {
+    animation: none;
+  }
+}
+
+.grain::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.04;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='256' height='256'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.65'/%3E%3C/svg%3E");
+}
+
+.glow-primary {
+  background: radial-gradient(circle, rgba(229, 107, 42, 0.35) 0%, transparent 65%);
+}
+
+.glow-accent {
+  background: radial-gradient(circle, rgba(199, 211, 189, 0.2) 0%, transparent 65%);
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(16px);
+  transition:
+    opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.card-tilt {
+  transform: perspective(1000px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
+  transition: transform 0.3s ease-out;
+}
+
+.shimmer-btn {
+  position: relative;
+  overflow: hidden;
+}
+
+.shimmer-btn::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    105deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.12) 45%,
+    transparent 70%
+  );
+  background-size: 200% 100%;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.shimmer-btn:hover::after {
+  opacity: 1;
+  animation: shimmer 2.5s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  .shimmer-btn::after {
+    animation: none !important;
+  }
+}
+
+@keyframes gradient-shift {
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}

@@ -3,7 +3,7 @@ import { Button } from './ui/Button';
 
 export function CTA() {
   return (
-    <section className="py-24 bg-cta-gradient relative z-10 overflow-hidden border-t border-sand/5">
+    <section className="relative z-10 overflow-hidden border-t border-sand/5 bg-transparent py-24">
       <div className="container mx-auto px-6 grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-12 items-center">
         
         {/* Left - Phone Mockup (5/12) */}
@@ -75,7 +75,7 @@ export function CTA() {
               placeholder="Enter your email address" 
               className="flex-1 bg-graphite-dark border border-sand/20 rounded-chip px-6 py-4 outline-none text-ivory placeholder-sand/50 focus:border-orange-burnt border-transparent ring-0 transition-all font-body text-sm shadow-inner"
             />
-            <Button className="whitespace-nowrap px-8 shadow-[0_4px_20px_rgba(194,65,12,0.4)]">Get Link</Button>
+            <Button className="whitespace-nowrap shadow-[0_4px_20px_rgba(194,65,12,0.4)]">Get Link</Button>
           </div>
 
           <div className="flex items-center gap-4">
